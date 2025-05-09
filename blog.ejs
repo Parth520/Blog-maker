@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: linear-gradient(#FFFA8D, #F3C623);
+        }
+        
+        .body {
+            padding: 40px;
+            max-width: 800px;
+            margin: auto;
+        }
+        
+        h1,
+        p {
+            margin-bottom: 1rem;
+        }
+        /* Magnetic effect styles */
+        
+        .magnetic {
+            position: relative;
+            display: inline-block;
+            perspective: 1000px;
+            cursor: default;
+        }
+        
+        .magnetic-text {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        /* Optional: make paragraphs look clean */
+        
+        .blog-paragraph {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .overlay {
+            flex: 1;
+            /* takes up available vertical space */
+            background-image: linear-gradient(#FCF259, #E9A319);
+            padding: 40px 20px;
+        }
+        
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("frontend/headersfooters/header.html")%>
+
+        <div class="body">
+            <h1 class="magnetic">
+                <span class="magnetic-text"><%= post.topic %></span>
+            </h1>
+            <br>
+
+            <p class="magnetic">
+                <strong class="magnetic-text">Author:</strong>
+                <span class="magnetic-text"><%= post.name %></span>
+            </p>
+            <br>
+
+            <% post.message.split(/\r?\n/).forEach(function(paragraph) { %>
+                <p class="blog-paragraph magnetic">
+                    <span class="magnetic-text"><%= paragraph %></span>
+                </p>
+                <% }) %>
+        </div>
+
+        <%- include("frontend/headersfooters/footer.html")%>
+
+            <script>
+                document.querySelectorAll('.magnetic').forEach(el => {
+                    const text = el.querySelector('.magnetic-text');
+
+                    el.addEventListener('mousemove', (e) => {
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        text.style.transform = `translate(${x * 0.05}px, ${y * 0.05}px)`;
+                    });
+
+                    el.addEventListener('mouseleave', () => {
+                        text.style.transform = 'translate(0, 0)';
+                    });
+                });
+            </script>
+</body>
+
+</html>

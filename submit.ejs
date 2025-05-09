@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create a Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .overlay {
+            background-image: linear-gradient(#FCF259, #E9A319);
+            padding: 50px 20px;
+            min-height: 100vh;
+        }
+        
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid black;
+            font-size: 2rem;
+            animation: typing 2.5s steps(40, end) forwards, blink 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+        
+        textarea {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            padding: 15px;
+            resize: vertical;
+        }
+        /* Fade-in animation */
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Magnetic button effect */
+        
+        .magnetic-btn {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            perspective: 1000px;
+        }
+        
+        .btn-text {
+            display: inline-block;
+            transition: transform 1s ease;
+        }
+        /* Common styles for input and textarea */
+        
+        input.form-control,
+        textarea.form-control1 {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: none;
+        }
+        /* On hover */
+        
+        input.form-control:hover,
+        textarea.form-control1:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* On focus */
+        
+        input.form-control:focus,
+        textarea.form-control1:focus {
+            outline: none;
+            border-color: #ffcc00;
+            box-shadow: 0 0 10px #ffdd55;
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("frontend/headersfooters/header.html") %>
+
+        <div class="overlay">
+            <h1 class="typewriter">Create blog</h1>
+            <hr class="fade-in">
+            <form action="/render" method="POST" class="fade-in">
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Your name</label>
+                    <input type="text" class="form-control" placeholder="Your name" name="name" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="topic" class="form-label">What's your Topic?</label>
+                    <input type="text" class="form-control" placeholder="Topic" name="Topic" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="message" class="form-label">Your Blog </label>
+                    <textarea class="form-control1" placeholder="Blog" name="message" required></textarea>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary magnetic-btn" type="submit">
+          <span class="btn-text">Submit Blog</span>
+        </button>
+                </div>
+
+            </form>
+        </div>
+
+        <%- include("frontend/headersfooters/footer.html") %>
+
+            <script>
+                // Magnetic effect for button
+                document.querySelectorAll('.magnetic-btn').forEach(button => {
+                    const text = button.querySelector('.btn-text');
+
+                    button.addEventListener('mousemove', (e) => {
+                        const rect = button.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+
+                        text.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                    });
+
+                    button.addEventListener('mouseleave', () => {
+                        text.style.transform = 'translate(0, 0)';
+                    });
+                });
+            </script>
+</body>
+
+</html>
