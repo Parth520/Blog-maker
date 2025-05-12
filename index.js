@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 const __dirname = dirname(fileURLToPath(
     import.meta.url));
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
